@@ -31,10 +31,12 @@ def loginUser(request):
 
     return render(request, 'users/login_register.html')
 
+
 def logoutUser(request):
     logout(request)
     messages.info(request, 'User successfully logged out')
     return redirect('login')
+
 
 def registerUser(request):
     page = 'register'
@@ -53,20 +55,30 @@ def registerUser(request):
             login(request, user)
             return redirect('profiles')
         else:
-            messages.error(request, 'An error has occurred during registration')
+            messages.error(
+                request, 'An error has occurred during registration')
 
-    context = { 'page': page, 'form': form }
+    context = {'page': page, 'form': form}
     return render(request, 'users/login_register.html', context)
+
 
 def profiles(request):
     profiles = Profile.objects.all()
-    context = { 'profiles': profiles }
+    context = {'profiles': profiles}
     return render(request, 'users/profiles.html', context)
+
 
 def userProfile(request, pk):
     profile = Profile.objects.get(id=pk)
     topSkills = profile.skill_set.exclude(description__exact="")
     otherSkills = profile.skill_set.filter(description="")
-    context = { 'profile': profile, 'topSkills': topSkills, 'otherSkills': otherSkills }
+    context = {'profile': profile, 'topSkills': topSkills,
+               'otherSkills': otherSkills}
     return render(request, 'users/user-profile.html', context)
-    
+
+
+@login_required(login_url='login')
+def userAccount(request):
+    profile = request.user.profile
+    context = {'profile': profile}
+    return render(request, 'users/account.html', context)
