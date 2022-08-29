@@ -11,7 +11,7 @@
 }
 
 .alert,
-.alert > .alert__message {
+.alert>.alert__message {
   background-color: var(--color-main-light);
   color: var(--color-main);
   font-size: 1.4rem;
@@ -19,18 +19,18 @@
 }
 
 .alert.alert--error,
-.alert.alert--error > .alert__message {
+.alert.alert--error>.alert__message {
   background-color: var(--color-error-bg);
   color: var(--color-error);
 }
 
 .alert.alert--success,
-.alert.alert--success > .alert__message {
+.alert.alert--success>.alert__message {
   background-color: var(--color-success-bg);
   color: var(--color-success);
 }
 
-.alert > .alert__close {
+.alert>.alert__close {
   background: transparent;
   cursor: pointer;
   border: none;
@@ -39,7 +39,6 @@
   transition: var(--generic-transition);
 }
 
-.alert > .alert__close:hover {
+.alert>.alert__close:hover {
   opacity: 0.85;
 }
-
