@@ -34,6 +34,7 @@ def createProject(request):
 
 @login_required(login_url="login")
 def updateProject(request, pk):
+    # Verify user is owner to udpate/delete
     profile = request.user.profile
     project = profile.project_set.get(id=pk)
     form = ProjectForm(instance=project)
