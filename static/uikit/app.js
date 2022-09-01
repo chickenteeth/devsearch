@@ -15,6 +15,6 @@ function closeAlert() {
   setTimeout(() => { alertWrapper.style.display = "none" }, 5000)
 }
 
-// if (alertWrapper){
-//   closeAlert()
-// }
+if (alertWrapper){
+  closeAlert()
+}
