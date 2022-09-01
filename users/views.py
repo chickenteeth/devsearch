@@ -1,4 +1,5 @@
 from multiprocessing import context
+from re import search
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -6,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import Profile
 from .forms import CustomUserCreationForm, ProfileForm, SkillForm
+from .utils import searchProfiles
 
 
 def loginUser(request):
@@ -64,8 +66,8 @@ def registerUser(request):
 
 
 def profiles(request):
-    profiles = Profile.objects.all()
-    context = {'profiles': profiles}
+    profiles, search_query = searchProfiles(request)
+    context = {'profiles': profiles, 'search_query': search_query}
     return render(request, 'users/profiles.html', context)
 
 
