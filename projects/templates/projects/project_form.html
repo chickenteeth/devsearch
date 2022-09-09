@@ -9,7 +9,7 @@
 <main class="formPage my-xl">
     <div class="content-box">
         <div class="formWrapper">
-            <a class="backButton" href="#"><i class="im im-angle-left"></i></a>
+            <a class="backButton" href="{% url 'account' %}"><i class="im im-angle-left"></i></a>
             <br>
 
             <form class="form" method="POST" >
@@ -23,10 +23,84 @@
                 </div>
                 {% endfor %}
 
+                <div class="form__field">
+                    {% for tag in project.tags.all %}
+                    <div class="project-tag tag tag--pill tag--main" data-tag="{{tag.id}}"
+                        data-project="{{project.id}}">{{tag.name}} &#215;</div>
+                    {% endfor %}
+                </div>
+
+                <div class="form__field ">
+                    <label for="formInput#text">Tags</label>
+                    <!-- {% for tag in project.tags.all %}
+                    <span class="tag tag--pill tag--main">
+                      <small>{{tag}}</small>
+                    </span>
+                    {% endfor %} -->
+                    <textarea name="newtags" class="input" id="tagArea" placeholder="Add new tags here..."></textarea>
+                </div>
+
                 <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
             </form>
         </div>
     </div>
 </main>
+
+<script>
+let tags = document.getElementsByClassName('project-tag')
+
+for (let i = 0; tags.length > i; i++) {
+    tags[i].addEventListener('click', (e) => {
+        let tagId = e.target.dataset.tag
+        let projectId = e.target.dataset.project
+
+        console.log('TAG ID:', tagId)
+        console.log('PROJECT ID:', projectId)
+
+        fetch('http://localhost:8000/api/remove-tag/', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 'project': projectId, 'tag': tagId })
+        })
+            .then(response => response.json())
+            .then(data => {
+                e.target.remove()
+            })
+
+    })
+}
+
+
+// const input = document.querySelector("#tagArea");
+
+// const clearTextArea = () => {
+//     input.value = '';
+// }
+
+// input.addEventListener('keydown', (event) => {
+//   if (event.keyCode === 32) {
+//     const span = input.insertAdjacentElement('beforebegin', document.createElement('span'));
+//     span.textContent = input.value;
+//     const x = span.appendChild(document.createElement('button'));
+//     x.textContent = 'x';
+//     x.onclick = () => span.remove();
+//     setTimeout(clearTextArea, 10)
+//   }
+// });
+
+// input.addEventListener('keydown', (event) => {
+//   if (event.keyCode === 188) {
+//     const span = input.insertAdjacentElement('beforebegin', document.createElement('span'));
+//     span.textContent = input.value;
+//     const x = span.appendChild(document.createElement('button'));
+//     x.textContent = 'x';
+//     x.onclick = () => span.remove();
+//     setTimeout(clearTextArea, 10)
+//   }
+// });
+
+</script>
 
 {% endblock %}

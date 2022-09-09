@@ -1,3 +1,4 @@
+from unicodedata import name
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -38,12 +39,19 @@ def createProject(request):
     form = ProjectForm()
 
     if request.method == 'POST':
+        newtags = request.POST.get('newtags').replace(',', ' ').split()
+
         form = ProjectForm(request.POST, request.FILES)
         if form.is_valid():
             # Associate user with project
             project = form.save(commit=False)
             project.owner = profile
             project.save()
+
+            for tag in newtags:
+                tag, created = Tag.objects.get_or_create(name=tag)
+                project.tags.add(tag)
+                
             return redirect('account')
 
     context = { 'form': form }
@@ -57,12 +65,17 @@ def updateProject(request, pk):
     form = ProjectForm(instance=project)
 
     if request.method == 'POST':
+        newtags = request.POST.get('newtags').replace(',', ' ').split()
         form = ProjectForm(request.POST, request.FILES, instance=project)
         if form.is_valid():
-            form.save()
+            project = form.save()
+            for tag in newtags:
+                tag, created = Tag.objects.get_or_create(name=tag)
+                project.tags.add(tag)
+
             return redirect('projects')
 
-    context = { 'form': form }
+    context = { 'form': form, 'project': project }
     return render(request, 'projects/project_form.html', context)
 
 @login_required(login_url="login")

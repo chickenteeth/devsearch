@@ -6,11 +6,11 @@ from .models import Project, Review
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
-        fields = ['title', 'featured_image', 'description', 'demo_link', 'source_link', 'tags']
+        fields = ['title', 'featured_image', 'description', 'demo_link', 'source_link']
         # Use Widgets to change form fields in Django
-        widgets = {
-            'tags': forms.CheckboxSelectMultiple()
-        }
+        # widgets = {
+        #     'tags': forms.CheckboxSelectMultiple()
+        # }
 
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)
