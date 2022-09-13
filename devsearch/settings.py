@@ -14,6 +14,10 @@ from curses.ascii import EM
 from pathlib import Path
 from datetime import timedelta
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,6 +47,7 @@ INSTALLED_APPS = [
     'projects.apps.ProjectsConfig',
     'users.apps.UsersConfig',
     'rest_framework',
+    'storages',
 ]
 
 REST_FRAMEWORK = {
@@ -119,9 +124,18 @@ WSGI_APPLICATION = 'devsearch.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'DevSearch',
+        'USER': str(os.getenv('DB_USER')),
+        'PASSWORD': str(os.getenv('DB_PASS')),
+        'HOST': str(os.getenv('DB_HOST')),
+        'PORT': '5432',
+
+    },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 }
 
 
@@ -159,8 +173,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'devsearchtutorial@gmail.com'
-EMAIL_HOST_PASSWORD = 'kkjtgxdwleljlfjt'
+EMAIL_HOST_USER = str(os.getenv('DJ_EMAIL'))
+EMAIL_HOST_PASSWORD = str(os.getenv('DJ_EMAIL_PASS'))
 
 
 # Static files (CSS, JavaScript, Images)
@@ -180,3 +194,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
+
+AWS_S3_ACCESS_KEY_ID = 'AKIA4OILHVQTC65N76YQ'  #str(os.getenv('AWS_S3_KEY'))
+AWS_S3_SECRET_ACCESS_KEY = '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' #str(os.getenv('AWS_S3_SECRET'))
+AWS_STORAGE_BUCKET_NAME = 'thebucketestbucket'
+AWS_QUERYSTRING_AUTH = False
