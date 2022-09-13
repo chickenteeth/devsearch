@@ -199,6 +199,6 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_FILE_OVERWRITE = False
 
-AWS_S3_ACCESS_KEY_ID = 'AKIA4OILHVQTC65N76YQ'  #str(os.getenv('AWS_S3_KEY'))
-AWS_S3_SECRET_ACCESS_KEY = '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' #str(os.getenv('AWS_S3_SECRET'))
+AWS_S3_ACCESS_KEY_ID = str(os.getenv('AWS_S3_KEY'))
+AWS_S3_SECRET_ACCESS_KEY = str(os.getenv('AWS_S3_SECRET'))
 AWS_STORAGE_BUCKET_NAME = 'thebucketestbucket'
