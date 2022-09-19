@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-o8swal#1#=4b(45m@_zu$as@m(r$l(9-ulu(dqmf&*%*kp*w-3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'devsearch.onrender.com']
 
 
 # Application definition
@@ -202,3 +202,6 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_S3_ACCESS_KEY_ID = str(os.getenv('AWS_S3_KEY'))
 AWS_S3_SECRET_ACCESS_KEY = str(os.getenv('AWS_S3_SECRET'))
 AWS_STORAGE_BUCKET_NAME = 'thebucketestbucket'
+
+if os.getcwd() == '/app':
+    DEBUG = False
