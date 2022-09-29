@@ -16,7 +16,19 @@
           <li class="header__menuItem"><a href="{% url 'projects' %}">Projects</a></li>
           
           {% if request.user.is_authenticated %}
-          <li class="header__menuItem"><a href="{% url 'inbox' %}">Inbox {{unreadCount}}</a></li>
+          <li class="header__menuItem"><a href="{% url 'inbox' %}">Inbox 
+            {% if unread %}
+            <span 
+            style="
+              color: #e5e7eb;
+              font-weight:500;
+              background-color: #51546e;
+              padding: 2px 10px;
+              margin-left: 2px;
+              border-radius: 5px;
+              ">{{unread}}</span> 
+              
+            {% endif %}</a></li>
           <li class="header__menuItem"><a href="{% url 'account' %}">Account</a></li>
           <li class="header__menuItem"><a href="{% url 'logout' %}" class="btn btn--sub">Logout</a></li>
           {% else %}
